@@ -10,7 +10,7 @@ Only convert file structure (json2json5, ts2ets). There is no guarantee that the
     pip install -r requirements.txt
     ```
 
-## usage 
+## Usage 
 ```bash
 python main.py --help
 ```
