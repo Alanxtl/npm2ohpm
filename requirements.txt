@@ -1,0 +1,3 @@
+json5
+openai
+python-dotenv
