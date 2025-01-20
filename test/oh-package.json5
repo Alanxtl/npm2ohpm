@@ -1,0 +1,45 @@
+{
+  "name": "@ohos/coap",
+  "version": "2.0.10",
+  "description": "ohos_coap是基于libcoap，封装napi接口，给上层ts提供coap通信能力的三方库。",
+  "author": {
+    "name": "ohos_tpc",
+    "url": "",
+    "email": ""
+  },
+  "keywords": [
+    "coap",
+    "openHarmony"
+  ],
+  "repository": "https://gitee.com/openharmony-tpc/ohos_coap",
+  "license": "Apache-2.0",
+  "artifactType": "original",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/libcoap.so": "file:./src/main/cpp/types/coap"
+  },
+  "metadata": {
+    "sourceRoots": [
+      "./src/main"
+    ]
+  },
+  "compatibleSdkVersion": 10,
+  "compatibleSdkType": "OpenHarmony",
+  "obfuscated": false,
+  "nativeComponents": [
+    {
+      "name": "libboundscheck.a",
+      "compatibleSdkVersion": 10,
+      "compatibleSdkType": "OpenHarmony",
+      "linkLibraries": []
+    },
+    {
+      "name": "libcoap.so",
+      "compatibleSdkVersion": 10,
+      "compatibleSdkType": "OpenHarmony",
+      "linkLibraries": []
+    }
+  ],
+  "types": "",
+  "main": "index.ets"
+}
