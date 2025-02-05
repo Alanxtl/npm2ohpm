@@ -38,3 +38,5 @@ def parse_package(directory, client):
                 os.makedirs(os.path.dirname(tar_path), exist_ok=True)
                 with open(full_path, 'rb') as fsrc, open(tar_path, 'wb') as fdst:
                     fdst.write(fsrc.read())
+
+    print("Converted successfully, stored in " + os.path.join(tar_root))
