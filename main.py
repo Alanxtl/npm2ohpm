@@ -17,7 +17,25 @@ if __name__ == "__main__":
     if sys.argv[1] == "convert":
         from src.parser import parse_package
 
-        parse_package(sys.argv[2], client)
+        src = sys.argv[2]
+        
+        if not os.path.exists(src):
+            print(f"Error: {src} does not exist", file=sys.stderr)
+            sys.exit(1)
+        if not os.path.isdir(src):
+            print(f"Error: {src} is not a directory", file=sys.stderr)
+            sys.exit(1)
+        if src.endswith("-converted"):
+            print(f"Error: {src} is already a converted directory", file=sys.stderr)
+            sys.exit(1)
+        if src.endswith("\\"):
+            src = src[:-1]
+        if src.endswith("/"):
+            src = src[:-1]
+        if src.endswith("\\\\"):
+            src = src[:-2]
+
+        parse_package(src, client)
 
     if sys.argv[1] == "json2json5":
         from src.json2json5.json2json5 import convert_json_to_json5
