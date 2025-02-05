@@ -2607,7 +2607,7 @@ def call_llm(input_file: str, client) -> str:
 			{"role": "system", "content": convert_prompt},
 			{"role": "system", "content": """你是一位软件代码专家，接下来我将输入一个TypeScript代码文件，请你将其转换为ArkTS代码文件。请注意如果代码中调用了其他ts文件请将其后缀转换为ets。请你只输出代码，不要包含任何Markdown格式。
 
-预期输入: 
+示例输入: 
 ```ts
 class Person {
   name: string 
@@ -2625,7 +2625,7 @@ let buddy = new Person()
 buddy.getName().length; 
 ```
 	
-预期输出:
+示例输出:
 ```ets
 class Person {
   name: string = ''
