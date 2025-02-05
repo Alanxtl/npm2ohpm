@@ -24,7 +24,7 @@ def parse_package(directory, client):
                 process_package_json(full_path, tar_path)
             if file == 'package-lock.json':
                 full_path = os.path.join(root, file)
-                tar_path = os.path.join(tar_root, relative_path, "oh-package.json5")
+                tar_path = os.path.join(tar_root, relative_path, "oh-package-lock.json5")
                 os.makedirs(os.path.dirname(tar_path), exist_ok=True)
                 process_package_json(full_path, tar_path)
             if file.endswith('.ts'):
