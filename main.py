@@ -5,7 +5,8 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv('DEEPSEEK_API'), base_url="https://api.deepseek.com")
+client = OpenAI(api_key=os.getenv('API'), base_url=os.getenv('BASE_URL'))
+model = os.getenv('MODEL')
 
 if __name__ == "__main__":
     if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
@@ -35,7 +36,7 @@ if __name__ == "__main__":
         if src.endswith("\\\\"):
             src = src[:-2]
 
-        parse_package(src, client)
+        parse_package(src, client, model)
 
     if sys.argv[1] == "json2json5":
         from src.json2json5.json2json5 import convert_json_to_json5
@@ -45,5 +46,5 @@ if __name__ == "__main__":
     if sys.argv[1] == "ts2ets":
         from src.js2ets.ts2ets import convert_ts_to_ets
 
-        convert_ts_to_ets(sys.argv[2], sys.argv[3], client)
+        convert_ts_to_ets(sys.argv[2], sys.argv[3], client, model)
 

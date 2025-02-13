@@ -2593,59 +2593,61 @@ function f() {
 }"""
 
 
-def convert_ts_to_ets(input_file, output_file, client) -> str:
+def convert_ts_to_ets(input_file, output_file, client, m) -> str:
 	with open(input_file, 'r', encoding='utf-8') as ts_file, open(output_file, 'w', encoding='utf-8') as ets_file:
-		ets_file.write(call_llm(ts_file.read(), client))
+		ets_file.write(call_llm(ts_file.read(), client, m))
 
 	return output_file
 
-def call_llm(input_file: str, client) -> str:
-	completion = client.chat.completions.create(
-		model="deepseek-coder",
-		store=False,
-		messages=[
-			{"role": "system", "content": convert_prompt},
-			{"role": "system", "content": """你是一位软件代码专家，接下来我将输入一个TypeScript代码文件，请你将其转换为ArkTS代码文件。请注意如果代码中调用了其他ts文件请将其后缀转换为ets。请你只输出代码，不要包含任何Markdown格式。
+def call_llm(input_file: str, client, m) -> str:
+    try:
+        completion = client.chat.completions.create(
+        model=m,
+        store=False,
+        messages=[
+            {"role": "system", "content": convert_prompt},
+            {"role": "system", "content": """你是一位软件代码专家，接下来我将输入一个TypeScript代码文件，请你将其转换为ArkTS代码文件。请注意如果代码中调用了其他ts文件请将其后缀转换为ets。请你只输出代码，不要包含任何Markdown格式不要包含任何描述性的文字。
 
-示例输入: 
-```ts
-class Person {
-  name: string 
-  
-  setName(n: string): void {
-    this.name = n
-  }
-  
-  getName(): string {
-    return this.name
-  }
-}
+    示例输入: 
+    ```ts
+    class Person {
+        name: string 
+        
+        setName(n: string): void {
+        this.name = n
+        }
+        
+        getName(): string {
+        return this.name
+        }
+    }
 
-let buddy = new Person()
-buddy.getName().length; 
-```
-	
-示例输出:
-```ets
-class Person {
-  name: string = ''
-  
-  setName(n: string): void {
-    this.name = n
-  }
-  
-  getName(): string {
-    return this.name
-  }
-}
+    let buddy = new Person()
+    buddy.getName().length; 
+    ```
+        
+    示例输出:
+    ```ets
+    class Person {
+        name: string = ''
+        
+        setName(n: string): void {
+        this.name = n
+        }
+        
+        getName(): string {
+        return this.name
+        }
+    }
 
-let buddy = new Person()
-buddy.getName().length;
-```
-"""},
-			{"role": "user", "content": "```ts" + input_file + "```"}
-		],
+    let buddy = new Person()
+    buddy.getName().length;
+    ```
+    """},
+            {"role": "user", "content": "```ts" + input_file + "```"}
+        ],
+        )
+    except Exception as e:
+        print(completion)
 
-	)
-
-	return completion.choices[0].message.content.replace('```ets', '').replace('```', '')
+    return completion.choices[0].message.content.replace('```ets', '').replace('```', '')

