@@ -1,5 +1,7 @@
 
-convert_prompt = """ArkTS通过规范约束了TypeScript（简称TS）中过于灵活而影响开发正确性或者给运行时带来不必要额外开销的特性。本文罗列了所有在ArkTS中限制的TS特性，并提供了重构代码的建议。ArkTS保留了TS大部分的语法特性，对于本文中没有约束的TS特性，则说明ArkTS完全支持它们。例如：ArkTS支持自定义装饰器，语法上和TS一致。按照本文提供的约束进行代码重构后的代码仍为合法有效的TS代码。
+convert_prompt = """
+以下内容是ArkTS的TypeScript代码转换提示，帮助您更好地理解ArkTS的约束和规范。本文档列出了ArkTS中不支持的TypeScript特性，以及如何将TypeScript代码转换为符合ArkTS规范的代码。请您仔细阅读以下内容，并根据提示进行代码转换。如果您有任何问题，请随时联系我们。
+ArkTS通过规范约束了TypeScript（简称TS）中过于灵活而影响开发正确性或者给运行时带来不必要额外开销的特性。本文罗列了所有在ArkTS中限制的TS特性，并提供了重构代码的建议。ArkTS保留了TS大部分的语法特性，对于本文中没有约束的TS特性，则说明ArkTS完全支持它们。例如：ArkTS支持自定义装饰器，语法上和TS一致。按照本文提供的约束进行代码重构后的代码仍为合法有效的TS代码。
 
 示例
 
@@ -2591,7 +2593,7 @@ function f() {
 }"""
 
 
-def convert_ts_to_ets(input_file, output_file, client, m) -> str:
+def convert_js_to_ets(input_file, output_file, client, m) -> str:
   with open(input_file, 'r', encoding='utf-8') as ts_file, open(output_file, 'w', encoding='utf-8') as ets_file:
     ets_file.write(call_llm(ts_file.read(), client, m))
 
@@ -2604,10 +2606,10 @@ def call_llm(input_file: str, client, m) -> str:
       store=False,
       messages=[
               {"role": "system", "content": convert_prompt},
-              {"role": "system", "content": """你是一位软件代码专家，接下来我将输入一个TypeScript代码文件，请你将其转换为ArkTS代码文件。请注意如果代码中调用了其他ts文件或者js文件请将其后缀转换为ets。请你只输出代码，不要包含任何Markdown格式不要包含任何描述性的文字。
+              {"role": "system", "content": """你是一位软件代码专家，接下来我将输入一个JavaScript代码文件，请你将其转换为ArkTS代码文件。请注意如果代码中调用了其他ts文件或者js文件请将其后缀转换为ets。请你只输出代码，不要包含任何Markdown格式不要包含任何描述性的文字。
 
       示例输入:
-      ```ts
+      ```js
       class Person {
           name: string
 
@@ -2642,7 +2644,7 @@ def call_llm(input_file: str, client, m) -> str:
       buddy.getName().length;
       ```
       """},
-              {"role": "user", "content": "```ts\n" + input_file + "\n```"}
+              {"role": "user", "content": "```js\n" + input_file + "\n```"}
       ],
     )
     # print(completion)

@@ -13,6 +13,7 @@ if __name__ == "__main__":
         print("Usage: python main.py convert <input_npm_package>", file=sys.stderr)
         print("Usage: python main.py json2json5 <input_json_file> <output_json5_file>", file=sys.stderr)
         print("Usage: python main.py ts2ets <input_ts_file> <output_ets_file>", file=sys.stderr)
+        print("Usage: python main.py js2ets <input_js_file> <output_ets_file>", file=sys.stderr)
         sys.exit(1)
 
     if sys.argv[1] == "convert":
@@ -47,4 +48,9 @@ if __name__ == "__main__":
         from src.js2ets.ts2ets import convert_ts_to_ets
 
         convert_ts_to_ets(sys.argv[2], sys.argv[3], client, model)
+
+    if sys.argv[1] == "js2ets":
+        from src.js2ets.js2ets import convert_js_to_ets
+
+        convert_js_to_ets(sys.argv[2], sys.argv[3], client, model)
 

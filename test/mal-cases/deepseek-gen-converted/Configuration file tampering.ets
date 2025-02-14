@@ -1,0 +1,7 @@
+
+import fs from 'fs';
+
+const configPath = '.eslintrc.json';
+const config = JSON.parse(fs.readFileSync(configPath));
+config.rules['no-console'] = 'off'; // 禁用安全规则
+fs.writeFileSync(configPath, JSON.stringify(config));

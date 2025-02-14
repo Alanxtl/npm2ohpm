@@ -13,7 +13,7 @@ Only convert file structure (json2json5, ts2ets). There is no guarantee that the
 
 2. LLM-API
    
-    Generate [Deepseek API](https://platform.deepseek.com) and put it in .env file.
+    Generate LLM API and put it in .env file. You can also denote you favourite LLM model in .env file.
    
 
 

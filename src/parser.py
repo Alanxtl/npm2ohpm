@@ -2,6 +2,7 @@ import os
 
 from src.json2json5.json2json5 import convert_json_to_json5
 from src.js2ets.ts2ets import convert_ts_to_ets
+from src.js2ets.js2ets import convert_js_to_ets
 
 def process_package_json(input_file, output_file):
     print(f'Processing {input_file} to {output_file}')
@@ -10,6 +11,10 @@ def process_package_json(input_file, output_file):
 def process_package_ts(input_file, output_file, client, m):
     print(f'Processing {input_file} to {output_file}')
     convert_ts_to_ets(input_file, output_file, client, m)
+
+def process_package_js(input_file, output_file, client, m):
+    print(f'Processing {input_file} to {output_file}')
+    convert_js_to_ets(input_file, output_file, client, m)
 
 def parse_package(directory, client, m):
     for root, dirs, files in os.walk(directory):
@@ -32,6 +37,11 @@ def parse_package(directory, client, m):
                 tar_path = os.path.join(tar_root, relative_path, file[:-3] + ".ets")
                 os.makedirs(os.path.dirname(tar_path), exist_ok=True)
                 process_package_ts(full_path, tar_path, client, m)
+            if file.endswith('.js'):
+                full_path = os.path.join(root, file)
+                tar_path = os.path.join(tar_root, relative_path, file[:-3] + ".ets")
+                os.makedirs(os.path.dirname(tar_path), exist_ok=True)
+                process_package_js(full_path, tar_path, client, m)
             else:
                 full_path = os.path.join(root, file)
                 tar_path = os.path.join(tar_root, relative_path, file)
