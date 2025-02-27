@@ -11,7 +11,7 @@ model = os.getenv('MODEL')
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="A tool for converting files and packages.")
-    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+    subparsers = parser.add_subparsers(dest="command", help="Available commands", required=True)
 
     # Command: convert
     convert_parser = subparsers.add_parser("convert", help="Convert an npm package")
