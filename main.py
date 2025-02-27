@@ -1,3 +1,4 @@
+import argparse
 import os
 import sys
 
@@ -9,18 +10,39 @@ client = OpenAI(api_key=os.getenv('API'), base_url=os.getenv('BASE_URL'))
 model = os.getenv('MODEL')
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
-        print("Usage: python main.py convert <input_npm_package>", file=sys.stderr)
-        print("Usage: python main.py json2json5 <input_json_file> <output_json5_file>", file=sys.stderr)
-        print("Usage: python main.py ts2ets <input_ts_file> <output_ets_file>", file=sys.stderr)
-        print("Usage: python main.py js2ets <input_js_file> <output_ets_file>", file=sys.stderr)
+    parser = argparse.ArgumentParser(description="A tool for converting files and packages.")
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+
+    # Command: convert
+    convert_parser = subparsers.add_parser("convert", help="Convert an npm package")
+    convert_parser.add_argument("npm_package", type=str, help="Path to the input npm package")
+
+    # Command: json2json5
+    json2json5_parser = subparsers.add_parser("json2json5", help="Convert JSON to JSON5")
+    json2json5_parser.add_argument("input_json_file", type=str, help="Path to the input JSON file")
+    json2json5_parser.add_argument("output_json5_file", type=str, help="Path to the output JSON5 file")
+
+    # Command: ts2ets
+    ts2ets_parser = subparsers.add_parser("ts2ets", help="Convert TypeScript to ArkTs")
+    ts2ets_parser.add_argument("input_ts_file", type=str, help="Path to the input TypeScript file")
+    ts2ets_parser.add_argument("output_ets_file", type=str, help="Path to the output ArkTs file")
+
+    # Command: js2ets
+    js2ets_parser = subparsers.add_parser("js2ets", help="Convert JavaScript to ArkTs")
+    js2ets_parser.add_argument("input_js_file", type=str, help="Path to the input JavaScript file")
+    js2ets_parser.add_argument("output_ets_file", type=str, help="Path to the output ArkTs file")
+
+    args = parser.parse_args()
+
+    if not args.command:
+        parser.print_help()
         sys.exit(1)
 
-    if sys.argv[1] == "convert":
+    if args.command == "convert":
         from src.parser import parse_package
 
-        src = sys.argv[2]
-        
+        src = args.input_npm_package
+
         if not os.path.exists(src):
             print(f"Error: {src} does not exist", file=sys.stderr)
             sys.exit(1)
@@ -39,18 +61,17 @@ if __name__ == "__main__":
 
         parse_package(src, client, model)
 
-    if sys.argv[1] == "json2json5":
+    elif args.command == "json2json5":
         from src.json2json5.json2json5 import convert_json_to_json5
 
-        convert_json_to_json5(sys.argv[2], sys.argv[3])
+        convert_json_to_json5(args.input_json_file, args.output_json5_file)
 
-    if sys.argv[1] == "ts2ets":
+    elif args.command == "ts2ets":
         from src.js2ets.ts2ets import convert_ts_to_ets
 
-        convert_ts_to_ets(sys.argv[2], sys.argv[3], client, model)
+        convert_ts_to_ets(args.input_ts_file, args.output_ets_file, client, model)
 
-    if sys.argv[1] == "js2ets":
+    elif args.command == "js2ets":
         from src.js2ets.js2ets import convert_js_to_ets
 
-        convert_js_to_ets(sys.argv[2], sys.argv[3], client, model)
-
+        convert_js_to_ets(args.input_js_file, args.output_ets_file, client, model)
